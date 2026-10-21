@@ -247,12 +247,12 @@ Downloads and caches the `microcks-cli` binary. See [templates/download-microcks
 
 - **[microcks-local-server](../microcks-local-server/)**: Start a local Microcks server with Docker Compose
   ```bash
-  npx skills add emmanuelperu/microcks-skills --skill microcks-local-server
+  npx skills add emmanuelperu/skills --skill microcks-local-server
   ```
 
 - **[microcks-openapi-mocking](../microcks-openapi-mocking/)**: Write OpenAPI examples that work with Microcks dispatchers
   ```bash
-  npx skills add emmanuelperu/microcks-skills --skill microcks-openapi-mocking
+  npx skills add emmanuelperu/skills --skill microcks-openapi-mocking
   ```
 
 ---

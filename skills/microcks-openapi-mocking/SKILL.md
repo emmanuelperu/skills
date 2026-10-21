@@ -383,17 +383,17 @@ paths:
 
 ## Complementary Skills
 
-- **[microcks-local-server](microcks-local-server)**: Start a local Microcks server with Docker Compose
+- **[microcks-local-server](../microcks-local-server/)**: Start a local Microcks server with Docker Compose
   ```bash
-  npx skills add emmanuelperu/microcks-skills --skill microcks-local-server
+  npx skills add emmanuelperu/skills --skill microcks-local-server
   ```
 
-- **[microcks-import-artifacts](microcks-import-artifacts)**: Import OpenAPI specs into Microcks and auto-configure dispatchers
+- **[microcks-import-artifacts](../microcks-import-artifacts/)**: Import OpenAPI specs into Microcks and auto-configure dispatchers
   ```bash
-  npx skills add emmanuelperu/microcks-skills --skill microcks-import-artifacts
+  npx skills add emmanuelperu/skills --skill microcks-import-artifacts
   ```
 
-- **[openapi-spec-generation](openapi-spec-generation)**: Write high-quality OpenAPI specifications from scratch
+- **[openapi-spec-generation](https://github.com/wshobson/agents)**: Write high-quality OpenAPI specifications from scratch
   ```bash
   npx skills add https://github.com/wshobson/agents --skill openapi-spec-generation
   ```
