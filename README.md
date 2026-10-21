@@ -50,8 +50,8 @@ npx skills add https://github.com/wshobson/agents --skill openapi-spec-generatio
 
 ## Links
 
-- [Microcks](https://microcks.io) — API mocking and testing platform
-- [Agent Skills](https://agentskills.io) — Open specification for AI agent skills
+- [Microcks](https://microcks.io): API mocking and testing platform
+- [Agent Skills](https://agentskills.io): Open specification for AI agent skills
 
 ## Acknowledgments
 

@@ -83,7 +83,7 @@ cd mocking && docker compose down
 
 ## Tips
 
-- **Ephemeral storage by default**: MongoDB uses a `tmpfs` mount for `/data/db` — all data is stored in memory and lost on `docker compose down`. This is intentional for a dev/test workflow where mocks are recreated from specs.
+- **Ephemeral storage by default**: MongoDB uses a `tmpfs` mount for `/data/db`: all data is stored in memory and lost on `docker compose down`. This is intentional for a dev/test workflow where mocks are recreated from specs.
 - **To persist data across restarts**, replace the `tmpfs` with a named volume:
 
 ```yaml
@@ -110,8 +110,8 @@ explicit user approval.
 
 ## Image Sources
 
-- `quay.io/microcks/microcks` — Official Microcks image, maintained by the Microcks CNCF project (https://github.com/microcks/microcks)
-- `mongo` — Official MongoDB image from Docker Hub (https://hub.docker.com/_/mongo)
+- `quay.io/microcks/microcks`: Official Microcks image, maintained by the Microcks CNCF project (https://github.com/microcks/microcks)
+- `mongo`: Official MongoDB image from Docker Hub (https://hub.docker.com/_/mongo)
 
 ## Complementary Skill
 

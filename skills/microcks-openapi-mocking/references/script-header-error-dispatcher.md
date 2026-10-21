@@ -1,8 +1,8 @@
 # Script Header Error Dispatcher
 
-The **Script Header Error Dispatcher** routes mock responses based on the `error` HTTP request header. It is the simplest way to trigger error scenarios on operations that have no discriminating parameter or body — typically `GET` without query params, or `DELETE` on a fixed path.
+The **Script Header Error Dispatcher** routes mock responses based on the `error` HTTP request header. It is the simplest way to trigger error scenarios on operations that have no discriminating parameter or body, typically `GET` without query params, or `DELETE` on a fixed path.
 
-Internally, Microcks uses a `SCRIPT` dispatcher with a static Groovy script. The script is identical for every operation that opts in, so the import workflow can generate it automatically — no Groovy file to write.
+Internally, Microcks uses a `SCRIPT` dispatcher with a static Groovy script. The script is identical for every operation that opts in, so the import workflow can generate it automatically (no Groovy file to write).
 
 ---
 
@@ -85,7 +85,7 @@ if (headers.hasValues("error")) {
 return "success"
 ```
 
-This script is static — it does **not** depend on the operation. The import workflow pushes the same script for every operation tagged with `script_header_error`.
+This script is static: it does **not** depend on the operation. The import workflow pushes the same script for every operation tagged with `script_header_error`.
 
 ---
 
@@ -99,7 +99,7 @@ Response examples **MUST** use these names, otherwise the script returns a value
 | 400         | `invalid_input`   |
 | 500         | `server_error`    |
 
-If you need additional error codes (e.g. 404, 409), use the [`script`](./script-dispatcher.md) dispatcher instead — `script_header_error` covers only success / 400 / 500.
+If you need additional error codes (e.g. 404, 409), use the [`script`](./script-dispatcher.md) dispatcher instead, since `script_header_error` covers only success / 400 / 500.
 
 ---
 
@@ -111,22 +111,22 @@ Once the spec is imported and the dispatcher is configured, test the three scena
 # Default success path (no error header)
 curl 'http://localhost:8080/rest/Pet+Store+API/1.0.0/v1/info'
 
-# 400 — invalid_input
+# 400: invalid_input
 curl 'http://localhost:8080/rest/Pet+Store+API/1.0.0/v1/info' \
   -H 'error: 400'
 
-# 500 — server_error
+# 500: server_error
 curl 'http://localhost:8080/rest/Pet+Store+API/1.0.0/v1/info' \
   -H 'error: 500'
 ```
 
-> **Mock URL pattern**: `http://localhost:8080/rest/{API_TITLE}/{API_VERSION}/{path}` — `API_TITLE` and `API_VERSION` come from the `info` block of the OpenAPI spec (URL-encoded if they contain spaces).
+> **Mock URL pattern**: `http://localhost:8080/rest/{API_TITLE}/{API_VERSION}/{path}`: `API_TITLE` and `API_VERSION` come from the `info` block of the OpenAPI spec (URL-encoded if they contain spaces).
 
 ---
 
 ## Related
 
-- **[json-body-dispatcher.md](./json-body-dispatcher.md)** — Route by request body field value
-- **[script-dispatcher.md](./script-dispatcher.md)** — Complex routing with custom Groovy scripts
-- **[dispatcher-setup.md](./dispatcher-setup.md)** — Configure dispatchers via the Microcks REST API
+- **[json-body-dispatcher.md](./json-body-dispatcher.md)**: Route by request body field value
+- **[script-dispatcher.md](./script-dispatcher.md)**: Complex routing with custom Groovy scripts
+- **[dispatcher-setup.md](./dispatcher-setup.md)**: Configure dispatchers via the Microcks REST API
 - **Microcks Dispatching docs**: https://microcks.io/documentation/using/admin-features/#dispatching

@@ -68,17 +68,6 @@ echo "Importing spec: $SPEC_FILE"
   --keycloakClientId=foo \
   --keycloakClientSecret=bar
 
-# ── Get service ID ───────────────────────────────────────────────────
-SERVICE_LIST=$(curl -s "${MICROCKS_API}/services?page=0&size=1")
-SERVICE_ID=$(echo "$SERVICE_LIST" | jq -r '.[0].id')
-
-if [ -z "$SERVICE_ID" ] || [ "$SERVICE_ID" = "null" ]; then
-  echo "Error: could not find service ID after import."
-  exit 1
-fi
-
-echo "Service ID: $SERVICE_ID"
-
 # ── Helper: convert YAML spec to JSON ────────────────────────────────
 spec_to_json() {
   docker run --rm $PLATFORM \
@@ -86,11 +75,29 @@ spec_to_json() {
     mikefarah/yq -o json '.' "/work/$(basename "$SPEC_FILE")"
 }
 
+SPEC_JSON=$(spec_to_json)
+
+# ── Get service ID ───────────────────────────────────────────────────
+# Match the imported service by the spec's info.title and info.version,
+# so the right service is found even when Microcks hosts several APIs.
+API_TITLE=$(echo "$SPEC_JSON" | jq -r '.info.title')
+API_VERSION=$(echo "$SPEC_JSON" | jq -r '.info.version')
+
+SERVICE_LIST=$(curl -s "${MICROCKS_API}/services?page=0&size=1000")
+SERVICE_ID=$(echo "$SERVICE_LIST" | jq -r \
+  --arg name "$API_TITLE" --arg version "$API_VERSION" \
+  'map(select(.name == $name and .version == $version)) | .[0].id')
+
+if [ -z "$SERVICE_ID" ] || [ "$SERVICE_ID" = "null" ]; then
+  echo "Error: could not find service '$API_TITLE' version '$API_VERSION' after import."
+  exit 1
+fi
+
+echo "Service ID: $SERVICE_ID ($API_TITLE $API_VERSION)"
+
 # ── Configure dispatchers ───────────────────────────────────────────
 echo ""
 echo "=== Configuring custom Microcks dispatchers ==="
-
-SPEC_JSON=$(spec_to_json)
 
 # Find all operations with x-mocking-microcks-dispatcher
 DISPATCHED_OPERATIONS=$(echo "$SPEC_JSON" | jq -r '

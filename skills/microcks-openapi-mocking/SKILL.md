@@ -246,12 +246,12 @@ Use the `microcks-import-artifacts` skill to import the spec and auto-configure 
 
 ```bash
 # Should return 201 with 'success' example
-curl -X POST http://localhost:8080/api/mocks/User%20API/1.0.0/users \
+curl -X POST http://localhost:8080/rest/User%20API/1.0.0/users \
   -H "Content-Type: application/json" \
   -d '{"name": "Alice", "email": "alice@example.com"}'
 
 # Should return 400 with 'invalid_input' example
-curl -X POST http://localhost:8080/api/mocks/User%20API/1.0.0/users \
+curl -X POST http://localhost:8080/rest/User%20API/1.0.0/users \
   -H "Content-Type: application/json" \
   -d '{"name": "", "email": "not-an-email"}'
 ```
@@ -260,11 +260,11 @@ curl -X POST http://localhost:8080/api/mocks/User%20API/1.0.0/users \
 
 ## Reference Files
 
-- **[example-pairing.md](./references/example-pairing.md)** — Rules for matching request and response examples
-- **[json-body-dispatcher.md](./references/json-body-dispatcher.md)** — Route POST requests based on request body
-- **[script-header-error-dispatcher.md](./references/script-header-error-dispatcher.md)** — Route success / 400 / 500 via the `error` HTTP header (no Groovy file needed)
-- **[script-dispatcher.md](./references/script-dispatcher.md)** — Complex routing with Groovy scripts
-- **[dispatcher-setup.md](./references/dispatcher-setup.md)** — Configure dispatchers via Microcks REST API
+- **[example-pairing.md](./references/example-pairing.md)**: Rules for matching request and response examples
+- **[json-body-dispatcher.md](./references/json-body-dispatcher.md)**: Route POST requests based on request body
+- **[script-header-error-dispatcher.md](./references/script-header-error-dispatcher.md)**: Route success / 400 / 500 via the `error` HTTP header (no Groovy file needed)
+- **[script-dispatcher.md](./references/script-dispatcher.md)**: Complex routing with Groovy scripts
+- **[dispatcher-setup.md](./references/dispatcher-setup.md)**: Configure dispatchers via Microcks REST API
 
 ---
 
@@ -383,17 +383,17 @@ paths:
 
 ## Complementary Skills
 
-- **[microcks-local-server](microcks-local-server)** — Start a local Microcks server with Docker Compose
+- **[microcks-local-server](microcks-local-server)**: Start a local Microcks server with Docker Compose
   ```bash
   npx skills add emmanuelperu/microcks-skills --skill microcks-local-server
   ```
 
-- **[microcks-import-artifacts](microcks-import-artifacts)** — Import OpenAPI specs into Microcks and auto-configure dispatchers
+- **[microcks-import-artifacts](microcks-import-artifacts)**: Import OpenAPI specs into Microcks and auto-configure dispatchers
   ```bash
   npx skills add emmanuelperu/microcks-skills --skill microcks-import-artifacts
   ```
 
-- **[openapi-spec-generation](openapi-spec-generation)** — Write high-quality OpenAPI specifications from scratch
+- **[openapi-spec-generation](openapi-spec-generation)**: Write high-quality OpenAPI specifications from scratch
   ```bash
   npx skills add https://github.com/wshobson/agents --skill openapi-spec-generation
   ```
