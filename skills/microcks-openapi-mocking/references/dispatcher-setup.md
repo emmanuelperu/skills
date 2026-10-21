@@ -10,9 +10,9 @@ After importing an OpenAPI spec into Microcks, you can configure or refine the d
 |---|---|---|
 | `JSON_BODY` | `json_body` | POST operations on collections; route by request body fields |
 | `SCRIPT` | `script` or `script_header_error` | Complex logic; route by query params, headers, path, or body structure |
-| `XPATH` | — | XML-based APIs; route by XML element values |
-| `REGEX` | — | Route by regex patterns on path or query params |
-| `FALLBACK` | — | Default dispatcher (no special logic) |
+| `XPATH` | N/A | XML-based APIs; route by XML element values |
+| `REGEX` | N/A | Route by regex patterns on path or query params |
+| `FALLBACK` | N/A | Default dispatcher (no special logic) |
 
 ---
 
@@ -72,9 +72,9 @@ curl -X PUT http://localhost:8080/api/services/{serviceId}/operation \
 - **method**: HTTP method (POST, GET, etc.)
 - **dispatcher**: "JSON_BODY"
 - **dispatcherRules**: Semicolon-separated field paths used for matching
-  - `amount` — simple field
-  - `items.size()` — array length
-  - `type` — field name
+  - `amount`: simple field
+  - `items.size()`: array length
+  - `type`: field name
 
 ### Complete Example
 

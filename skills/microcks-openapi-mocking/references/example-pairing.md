@@ -149,7 +149,7 @@ paths:
 responses:
   '204':
     description: User deleted
-    # ❌ Missing content block — Microcks won't pair this correctly
+    # ❌ Missing content block, Microcks won't pair this correctly
 ```
 
 ---
