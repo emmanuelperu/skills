@@ -130,6 +130,8 @@ The import script generates a Groovy dispatcher that reads the `error` header:
 - `error: 500` → returns `server_error`
 - No header → returns `success`
 
+> **Details:** See [script-header-error-dispatcher.md](./references/script-header-error-dispatcher.md)
+
 ### Rule 6: Complex Logic → Use script Dispatcher
 
 For GET/PATCH/DELETE, polymorphic bodies, or multi-field routing logic, use the `script` dispatcher with an external Groovy file:
@@ -169,7 +171,7 @@ Use these standard example names to keep your specs consistent:
 | Dispatcher | When to Use | Example |
 |---|---|---|
 | `json_body` | POST operations; route by request body fields | [json-body-dispatcher.md](./references/json-body-dispatcher.md) |
-| `script_header_error` | Operations without discriminating param/body; route by `error` header | See Rule 5 above |
+| `script_header_error` | Operations without discriminating param/body; route by `error` header | [script-header-error-dispatcher.md](./references/script-header-error-dispatcher.md) |
 | `script` | Complex logic; route by query params, headers, path, or body | [script-dispatcher.md](./references/script-dispatcher.md) |
 
 ---
@@ -260,6 +262,7 @@ curl -X POST http://localhost:8080/api/mocks/User%20API/1.0.0/users \
 
 - **[example-pairing.md](./references/example-pairing.md)** — Rules for matching request and response examples
 - **[json-body-dispatcher.md](./references/json-body-dispatcher.md)** — Route POST requests based on request body
+- **[script-header-error-dispatcher.md](./references/script-header-error-dispatcher.md)** — Route success / 400 / 500 via the `error` HTTP header (no Groovy file needed)
 - **[script-dispatcher.md](./references/script-dispatcher.md)** — Complex routing with Groovy scripts
 - **[dispatcher-setup.md](./references/dispatcher-setup.md)** — Configure dispatchers via Microcks REST API
 

@@ -6,7 +6,7 @@
 [![GitHub stars](https://img.shields.io/github/stars/emmanuelperu/microcks-skills)](https://github.com/emmanuelperu/microcks-skills/stargazers)
 [![Skills](https://img.shields.io/badge/skills-3-green)](skills/)
 
-Agent skills for [Microcks](https://microcks.io) — the CNCF open-source tool for API mocking and testing. These skills teach AI coding agents how to work with Microcks in your development workflow.
+Agent skills for [Microcks](https://microcks.io) : the CNCF open-source tool for API mocking and testing. These skills teach AI coding agents how to work with Microcks in your development workflow.
 
 ## Skills
 
@@ -25,7 +25,7 @@ npx skills add emmanuelperu/microcks-skills
 # Install for a specific agent
 npx skills add emmanuelperu/microcks-skills -a claude-code
 npx skills add emmanuelperu/microcks-skills -a cursor
-npx skills add emmanuelperu/microcks-skills -a copilot
+npx skills add emmanuelperu/microcks-skills -a github-copilot
 ```
 
 ## Compatible Agents

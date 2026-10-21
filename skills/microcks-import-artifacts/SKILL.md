@@ -120,6 +120,77 @@ The path slug is built by:
 
 ---
 
+## Integration Workflow
+
+The `import-openapi.sh` script performs a 5-step workflow that combines artifact import and dispatcher configuration in a single command. Understanding these steps is useful for debugging or building your own variant.
+
+### Step 1 — Health-check the Microcks instance
+
+The script polls `GET {MICROCKS_URL}/api/health` until Microcks responds. If Microcks is not running, the script exits with a clear message rather than failing later on an HTTP error.
+
+```bash
+curl -sf "${MICROCKS_URL}/api/health"
+```
+
+### Step 2 — Import the OpenAPI spec
+
+The script invokes `microcks-cli` to push the spec into Microcks as a primary artifact. Microcks parses the spec and creates a mock service for every operation, using the named examples to seed request/response pairs.
+
+```bash
+microcks-cli import "${SPEC_FILE}:true" \
+  --microcksURL="${MICROCKS_URL}/api"
+```
+
+For operations that already have a discriminating parameter or body, Microcks uses native dispatching (`URI_PARAMS`, `URI_ELEMENTS`, `QUERY_HEADER`). The script only needs to configure custom dispatchers for operations that opt in via `x-mocking-microcks-dispatcher`.
+
+### Step 3 — Detect vendor extensions
+
+The script converts the YAML spec to JSON (via `mikefarah/yq` in Docker) and finds every operation annotated with `x-mocking-microcks-dispatcher` using `jq`:
+
+```bash
+jq '.paths
+  | to_entries[]
+  | .key as $path
+  | .value
+  | to_entries[]
+  | select(.value."x-mocking-microcks-dispatcher" != null)
+  | { path: $path, method: .key, dispatcher: .value."x-mocking-microcks-dispatcher" }'
+```
+
+This produces a list of `(path, method, dispatcher)` triples to process.
+
+### Step 4 — Build the dispatcher payload
+
+The payload depends on the dispatcher type:
+
+| Type                  | Microcks dispatcher | `dispatcherRules` content                                                                 |
+|-----------------------|---------------------|-------------------------------------------------------------------------------------------|
+| `json_body`           | `JSON_BODY`         | A JSON object describing the discriminant field. The script analyzes the request body examples to find the first field whose values uniquely identify each example. |
+| `script_header_error` | `SCRIPT`            | A **static Groovy script** that reads the `error` header (`400` → `invalid_input`, `500` → `server_error`, default → `success`). Identical for every operation. |
+| `script`              | `SCRIPT`            | The contents of `mocking/dispatchers/{METHOD}-{path-slug}.groovy`, loaded from the project. |
+
+### Step 5 — Push the dispatcher via the Microcks API
+
+The script calls `PUT /api/services/{serviceId}/operation` for each detected operation, with the dispatcher type and rules in the body:
+
+```http
+PUT /api/services/{serviceId}/operation?operationName={METHOD}%20{path}
+Content-Type: application/json
+
+{
+  "dispatcher": "JSON_BODY",
+  "dispatcherRules": "{\"type\": \"jsonpath\", \"exp\": \"/status\", ...}"
+}
+```
+
+The `serviceId` is fetched ahead of time via `GET /api/services?name={API_TITLE}&version={API_VERSION}`.
+
+### Why dispatchers need names to match
+
+Microcks correlates request and response examples **by example name**. After dispatching, the matched request example's name (e.g. `success`) is used to look up the response example with the same name. If names do not match across `parameters`, `requestBody`, and `responses`, Microcks falls back to the first available example. See the `microcks-openapi-mocking` skill for the full naming rules.
+
+---
+
 ## Script Templates
 
 ### import-openapi.sh
